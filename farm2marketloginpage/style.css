@@ -1,0 +1,1686 @@
+/* ==========================================================================
+   Farm2Market - Pure Vanilla CSS3 Stylesheet
+   Theme: Professional Polish (High Contrast, Refined Glass, Modern Spacing)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color Palette */
+  --color-primary-green: #16a34a;       /* Professional Emerald Green */
+  --color-primary-green-hover: #15803d;
+  --color-primary-green-dark: #064e3b;
+  --color-primary-green-light: #f0fdf4;
+  --color-primary-green-border: #bbf7d0;
+
+  --color-accent-amber: #d97706;        /* Golden harvest amber */
+  --color-accent-amber-light: #fffbeb;
+
+  --color-admin-navy: #1e3a8a;          /* Official administrative navy */
+  --color-admin-navy-hover: #172554;
+
+  --color-text-main: #0f172a;           /* Slate 900 */
+  --color-text-secondary: #374151;      /* Gray 700 */
+  --color-text-muted: #6b7280;          /* Gray 500 */
+  --color-text-light: #9ca3af;          /* Gray 400 */
+
+  --color-surface-white: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.82);
+  --color-surface-glass-border: rgba(255, 255, 255, 0.75);
+  --color-surface-subtle: rgba(248, 250, 252, 0.8);
+
+  --color-border-default: #e2e8f0;
+  --color-border-focus: #16a34a;
+
+  --color-danger: #dc2626;
+  --color-danger-light: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  --color-warning: #b45309;
+  --color-warning-light: #fffbeb;
+  --color-warning-border: #fde68a;
+
+  --color-success: #16a34a;
+  --color-success-light: #f0fdf4;
+  --color-success-border: #bbf7d0;
+
+  /* Typography */
+  --font-family-base: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Layout & Sizing */
+  --card-max-width: 460px;
+  --card-border-radius: 24px;
+  --input-border-radius: 12px;
+  --pill-border-radius: 14px;
+  --button-border-radius: 12px;
+
+  /* Shadows & Specular Glows */
+  --shadow-card: 0 25px 60px -10px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.65) inset, 0 1px 25px rgba(255, 255, 255, 0.4) inset;
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3.5px rgba(22, 163, 74, 0.22);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Baseline
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family-base);
+  color: var(--color-text-main);
+  background-color: #0b1f14;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  line-height: 1.5;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility: visually hidden utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Utility Hidden */
+.hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Full-Screen Agricultural Photograph Background & Overlay
+   -------------------------------------------------------------------------- */
+.bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: #1a2e26;
+}
+
+.bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/farm-background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transform: scale(1.01);
+  transition: transform 1.2s ease-out;
+}
+
+/* Atmospheric subtle overlay preserving the vivid golden-hour harvest photography */
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(15, 23, 42, 0.12) 0%,
+    rgba(6, 78, 59, 0.28) 60%,
+    rgba(2, 44, 34, 0.55) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   4. Centered Layout Structure (Mobile, Tablet, Laptop & Desktop)
+   -------------------------------------------------------------------------- */
+.auth-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top, 20px)) max(16px, env(safe-area-inset-right, 16px)) max(24px, env(safe-area-inset-bottom, 24px)) max(16px, env(safe-area-inset-left, 16px));
+  box-sizing: border-box;
+}
+
+.card-container {
+  width: 100%;
+  max-width: var(--card-max-width);
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   5. Farm2Market Authentication Card (Glass Finish Transparent Glossy)
+   -------------------------------------------------------------------------- */
+.auth-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--card-border-radius);
+  box-shadow: 
+    0 28px 56px -12px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+    0 1px 24px rgba(255, 255, 255, 0.35) inset;
+  padding: 32px 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background-color 0.3s ease;
+  color: var(--color-text-main);
+  animation: cardFadeIn 0.35s var(--transition-smooth);
+  box-sizing: border-box;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+}
+
+/* Glossy specular light sheen across upper card */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 65%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.auth-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Brand Header
+   -------------------------------------------------------------------------- */
+.brand-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  padding: 3px 12px;
+  border-radius: 9999px;
+  margin-bottom: 12px;
+}
+
+.govt-icon {
+  font-size: 13px;
+}
+
+.govt-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--color-primary-green);
+  text-transform: uppercase;
+}
+
+.brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.brand-title {
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #064e3b;
+  line-height: 1.15;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.brand-number {
+  color: #16a34a;
+  font-style: italic;
+  display: inline-block;
+  font-size: 36px;
+  font-weight: 900;
+  margin: 0 1px;
+}
+
+.brand-tagline {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: -0.1px;
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   6b. Primary Auth Mode Switcher (Sign In vs Sign Up Tabs)
+   -------------------------------------------------------------------------- */
+.auth-mode-switch-wrapper {
+  margin-bottom: 20px;
+}
+
+.auth-mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background-color: rgba(226, 232, 240, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px;
+  border-radius: var(--pill-border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.auth-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.auth-mode-tab:hover:not(.active) {
+  color: var(--color-text-main);
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+.auth-mode-tab.active {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #064e3b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.auth-mode-tab .tab-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   7. Role Selection (Vertical Stacked Grid Pattern)
+   -------------------------------------------------------------------------- */
+.role-selector-section {
+  margin-bottom: 24px;
+}
+
+.role-section-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.role-pills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.role-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--pill-border-radius);
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  user-select: none;
+  text-align: center;
+}
+
+.role-pill:hover:not(.active) {
+  border-color: #86efac;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-main);
+  transform: translateY(-1px);
+}
+
+.role-pill.active {
+  border-color: var(--color-primary-green) !important;
+  background-color: rgba(240, 253, 244, 0.95) !important;
+  color: var(--color-primary-green-hover) !important;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.role-pill[data-role="operator"].active {
+  border-color: #0284c7 !important;
+  background-color: rgba(240, 249, 255, 0.95) !important;
+  color: #0369a1 !important;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.role-pill[data-role="admin"].active {
+  border-color: var(--color-admin-navy) !important;
+  background-color: rgba(238, 242, 255, 0.95) !important;
+  color: var(--color-admin-navy) !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.role-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.role-text {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Form Controls & Elements
+   -------------------------------------------------------------------------- */
+.form-container {
+  min-height: 220px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.form-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.label-with-aside {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Password Input Wrapper & Eye Icon Toggle */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input.has-icon-right {
+  padding-right: 46px;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 5;
+}
+
+.toggle-password-btn:hover {
+  color: var(--color-primary-green);
+  background-color: rgba(22, 163, 74, 0.1);
+}
+
+.toggle-password-btn:focus-visible {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 1px;
+}
+
+.toggle-password-btn.is-active {
+  color: var(--color-primary-green-hover);
+  background-color: rgba(22, 163, 74, 0.14);
+}
+
+.eye-icon {
+  display: block;
+  pointer-events: none;
+  transition: transform 0.15s ease;
+}
+
+.toggle-password-btn:active .eye-icon {
+  transform: scale(0.9);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.optional {
+  font-size: 11px;
+  font-weight: normal;
+  color: var(--color-text-muted);
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-family: var(--font-family-base);
+  font-size: 14.5px;
+  color: var(--color-text-main);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--input-border-radius);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus {
+  background-color: #ffffff;
+  border-color: var(--color-primary-green);
+  box-shadow: var(--shadow-focus);
+}
+
+.form-input.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--color-danger);
+  background-color: #fffafa;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-light);
+  font-size: 14px;
+}
+
+/* Prefix Container for +91 Phone Numbers */
+.input-with-prefix {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--input-border-radius);
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.input-with-prefix:focus-within {
+  background-color: #ffffff;
+  border-color: var(--color-primary-green);
+  box-shadow: var(--shadow-focus);
+}
+
+.input-prefix {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 48px;
+  background-color: #f3f4f6;
+  border-right: 2px solid var(--color-border-default);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.flag-icon {
+  border-radius: 2px;
+  box-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+.form-input.has-prefix {
+  border: none;
+  border-radius: 0;
+  padding-left: 14px;
+  letter-spacing: 0.8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.form-input.has-prefix:focus {
+  box-shadow: none;
+  border: none;
+}
+
+.field-error {
+  font-size: 11.5px;
+  color: var(--color-danger);
+  font-weight: 500;
+  min-height: 16px;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   8b. Visual Password Strength Indicator
+   -------------------------------------------------------------------------- */
+.password-strength-container {
+  margin-top: 6px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: var(--input-border-radius);
+  padding: 10px 12px;
+  transition: all var(--transition-normal);
+  animation: fadeIn 0.2s ease;
+}
+
+.strength-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.strength-label-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+
+.strength-level-text {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+}
+
+.strength-level-text.weak {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.strength-level-text.fair {
+  color: #d97706;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+.strength-level-text.strong {
+  color: #16a34a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.strength-level-text.very-strong {
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.strength-meter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.strength-bar {
+  height: 4px;
+  border-radius: 9999px;
+  background-color: #e5e7eb;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.strength-meter[data-level="1"] .strength-bar:nth-child(1) {
+  background-color: #ef4444;
+}
+
+.strength-meter[data-level="2"] .strength-bar:nth-child(1),
+.strength-meter[data-level="2"] .strength-bar:nth-child(2) {
+  background-color: #f59e0b;
+}
+
+.strength-meter[data-level="3"] .strength-bar:nth-child(1),
+.strength-meter[data-level="3"] .strength-bar:nth-child(2),
+.strength-meter[data-level="3"] .strength-bar:nth-child(3) {
+  background-color: #16a34a;
+}
+
+.strength-meter[data-level="4"] .strength-bar:nth-child(1),
+.strength-meter[data-level="4"] .strength-bar:nth-child(2),
+.strength-meter[data-level="4"] .strength-bar:nth-child(3),
+.strength-meter[data-level="4"] .strength-bar:nth-child(4) {
+  background-color: #059669;
+}
+
+.strength-criteria {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 10px;
+}
+
+.criteria-item {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--transition-fast);
+}
+
+.criteria-item .criteria-icon {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text-light);
+  display: inline-block;
+  line-height: 1;
+}
+
+.criteria-item.met {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.criteria-item.met .criteria-icon {
+  color: #16a34a;
+}
+
+/* --------------------------------------------------------------------------
+   9. OTP Inputs Grid & Controls
+   -------------------------------------------------------------------------- */
+.otp-instruction-box {
+  background: rgba(240, 253, 244, 0.7);
+  border: 1px solid var(--color-primary-green-border);
+  border-radius: var(--input-border-radius);
+  padding: 12px 14px;
+  margin-bottom: 2px;
+}
+
+.otp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.otp-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #065f46;
+}
+
+.otp-subtitle {
+  font-size: 12.5px;
+  color: var(--color-text-secondary);
+}
+
+.demo-otp-helper {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(21, 128, 61, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.helper-badge {
+  background: #047857;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.helper-code {
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #064e3b;
+}
+
+.btn-mini-action {
+  margin-left: auto;
+  background: #ffffff;
+  border: 1px solid rgba(21, 128, 61, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-primary-green);
+  cursor: pointer;
+}
+
+.btn-mini-action:hover {
+  background: var(--color-primary-green);
+  color: #ffffff;
+}
+
+.otp-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+
+.otp-digit {
+  height: 52px;
+  aspect-ratio: 1 / 1;
+  text-align: center;
+  font-family: var(--font-family-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  background-color: var(--color-surface-white);
+  border: 2px solid var(--color-border-default);
+  border-radius: 10px;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.otp-digit:focus {
+  border-color: var(--color-primary-green);
+  box-shadow: var(--shadow-focus);
+  background-color: #fafffc;
+}
+
+.otp-digit.filled {
+  border-color: #86efac;
+  background-color: #f0fdf4;
+}
+
+.resend-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 24px;
+  margin: 0 0 6px;
+}
+
+.timer-text {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.timer-number {
+  font-weight: 700;
+  color: var(--color-primary-green);
+}
+
+/* --------------------------------------------------------------------------
+   10. Action Buttons & Styling
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 50px;
+  padding: 0 24px;
+  font-family: var(--font-family-base);
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--button-border-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  user-select: none;
+  position: relative;
+}
+
+.btn-primary {
+  background-color: var(--color-primary-green);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-green-hover);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.38);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.2);
+}
+
+.btn-admin {
+  background-color: var(--color-admin-navy);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
+}
+
+.btn-admin:hover:not(:disabled) {
+  background-color: var(--color-admin-navy-hover);
+  box-shadow: 0 6px 20px rgba(30, 58, 138, 0.38);
+  transform: translateY(-1px);
+}
+
+.btn-admin:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: var(--color-text-main);
+  border: 1.5px solid var(--color-border-default);
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-outline-warning {
+  background: var(--color-warning-light);
+  border: 1.5px solid var(--color-warning-border);
+  color: var(--color-warning);
+}
+
+.btn-outline-warning:hover {
+  background: #fef3c7;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Spinner inside button */
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Text Links */
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-primary-green);
+  font-family: var(--font-family-base);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.btn-link:hover {
+  color: var(--color-primary-green-hover);
+}
+
+.auth-footer-links {
+  text-align: center;
+  margin-top: 6px;
+}
+
+.footer-text {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   11. Registration View Specifics
+   -------------------------------------------------------------------------- */
+.registration-header {
+  margin-bottom: 14px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-family: var(--font-family-base);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.back-button:hover {
+  color: var(--color-text-main);
+}
+
+.view-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: -0.2px;
+}
+
+.view-subheading {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.multi-field-form {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.multi-field-form::-webkit-scrollbar {
+  width: 5px;
+}
+
+.multi-field-form::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   12. Unregistered Farmer & Unverified Operator Alerts
+   -------------------------------------------------------------------------- */
+.unregistered-prompt {
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--input-border-radius);
+  padding: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.unregistered-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.info-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.unverified-box {
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.unverified-msg {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.unverified-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.quick-credentials-hint {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  text-align: center;
+  background: rgba(248, 250, 252, 0.8);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px dashed var(--color-border-default);
+}
+
+.quick-credentials-hint code {
+  font-family: monospace;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.admin-security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-admin-navy);
+  background: rgba(238, 242, 255, 0.8);
+  border: 1px solid rgba(199, 210, 254, 0.8);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   13. Feedback Status Banner (Notifications)
+   -------------------------------------------------------------------------- */
+.status-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  animation: bannerSlide 0.25s ease-out;
+}
+
+@keyframes bannerSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.status-banner.error {
+  background-color: var(--color-danger-light);
+  border: 1px solid var(--color-danger-border);
+  color: #991b1b;
+}
+
+.status-banner.success {
+  background-color: var(--color-success-light);
+  border: 1px solid var(--color-success-border);
+  color: #14532d;
+}
+
+.status-banner.warning {
+  background-color: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  color: #854d0e;
+}
+
+.status-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.status-content {
+  flex: 1;
+}
+
+.status-message {
+  font-weight: 500;
+}
+
+.status-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.status-close-btn:hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   14. Authenticated Success View
+   -------------------------------------------------------------------------- */
+.success-card {
+  text-align: center;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  box-shadow: 0 0 0 6px #f0fdf4;
+}
+
+.success-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: #064e3b;
+}
+
+.success-badge {
+  display: inline-block;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.user-details-summary {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid var(--color-border-default);
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 12.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-label {
+  color: var(--color-text-muted);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.success-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   15. Card Footer
+   -------------------------------------------------------------------------- */
+.card-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  text-align: center;
+}
+
+.security-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px #22c55e;
+}
+
+.copyright-meta {
+  font-size: 10.5px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   16. Responsive Auto-Adjustment Engine (Mobile, Tablet, Laptop & Desktop)
+   -------------------------------------------------------------------------- */
+
+/* Large Screens & High-Resolution Laptops */
+@media (min-width: 1200px) {
+  :root {
+    --card-max-width: 470px;
+  }
+
+  .auth-card {
+    padding: 36px 36px 30px;
+  }
+}
+
+/* Tablets & Small Laptops (769px to 1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --card-max-width: 460px;
+  }
+
+  .auth-wrapper {
+    padding: max(24px, env(safe-area-inset-top, 24px)) max(20px, env(safe-area-inset-right, 20px)) max(24px, env(safe-area-inset-bottom, 24px)) max(20px, env(safe-area-inset-left, 20px));
+  }
+
+  .auth-card {
+    padding: 28px 26px 24px;
+    border-radius: 20px;
+  }
+}
+
+/* Portrait Tablets & Large Phones (521px to 768px) */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    padding: max(16px, env(safe-area-inset-top, 16px)) max(14px, env(safe-area-inset-right, 14px)) max(20px, env(safe-area-inset-bottom, 20px)) max(14px, env(safe-area-inset-left, 14px));
+  }
+
+  .auth-card {
+    padding: 26px 22px 22px;
+    border-radius: 18px;
+  }
+
+  .brand-title {
+    font-size: 30px;
+  }
+
+  .brand-number {
+    font-size: 32px;
+  }
+}
+
+/* Standard Mobile Devices (<= 520px) */
+@media (max-width: 520px) {
+  .auth-wrapper {
+    padding: max(12px, env(safe-area-inset-top, 12px)) max(12px, env(safe-area-inset-right, 12px)) max(16px, env(safe-area-inset-bottom, 16px)) max(12px, env(safe-area-inset-left, 12px));
+  }
+
+  .auth-card {
+    padding: 22px 18px 20px;
+    border-radius: 18px;
+  }
+
+  .auth-card:hover {
+    /* Touch devices: disable heavy lift to prevent jitter on tap */
+    transform: none;
+  }
+
+  .brand-header {
+    margin-bottom: 18px;
+  }
+
+  .brand-badge {
+    padding: 2px 10px;
+    margin-bottom: 8px;
+  }
+
+  .govt-label {
+    font-size: 9px;
+    letter-spacing: 0.4px;
+  }
+
+  .brand-title {
+    font-size: 28px;
+  }
+
+  .brand-number {
+    font-size: 30px;
+  }
+
+  .brand-tagline {
+    font-size: 13px;
+  }
+
+  .auth-mode-switch-wrapper {
+    margin-bottom: 16px;
+  }
+
+  .auth-mode-tab {
+    padding: 9px 12px;
+    font-size: 13.5px;
+    gap: 6px;
+  }
+
+  .role-selector-section {
+    margin-bottom: 18px;
+  }
+
+  .role-pills {
+    gap: 8px;
+  }
+
+  .role-pill {
+    padding: 10px 4px;
+    border-radius: 12px;
+  }
+
+  .role-icon {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .role-text {
+    font-size: 11.5px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .otp-inputs-grid {
+    gap: 6px;
+  }
+
+  .otp-digit {
+    height: 46px;
+    font-size: 19px;
+    border-radius: 8px;
+  }
+
+  .multi-field-form {
+    max-height: 52dvh;
+  }
+
+  .card-footer {
+    margin-top: 18px;
+    padding-top: 12px;
+  }
+}
+
+/* Compact Mobile Devices (<= 390px, e.g. iPhone SE / Mini / Small Androids) */
+@media (max-width: 390px) {
+  .auth-wrapper {
+    padding: max(8px, env(safe-area-inset-top, 8px)) max(8px, env(safe-area-inset-right, 8px)) max(12px, env(safe-area-inset-bottom, 12px)) max(8px, env(safe-area-inset-left, 8px));
+  }
+
+  .auth-card {
+    padding: 18px 14px 16px;
+    border-radius: 16px;
+  }
+
+  .brand-title {
+    font-size: 25px;
+  }
+
+  .brand-number {
+    font-size: 27px;
+  }
+
+  .brand-tagline {
+    font-size: 12px;
+  }
+
+  .govt-label {
+    font-size: 8.5px;
+    letter-spacing: 0.2px;
+  }
+
+  .auth-mode-tab {
+    padding: 8px 8px;
+    font-size: 12.5px;
+    gap: 4px;
+  }
+
+  .role-pills {
+    gap: 6px;
+  }
+
+  .role-pill {
+    padding: 8px 2px;
+    border-radius: 10px;
+  }
+
+  .role-icon {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  .role-text {
+    font-size: 10.5px;
+  }
+
+  .otp-inputs-grid {
+    gap: 4px;
+  }
+
+  .otp-digit {
+    height: 40px;
+    font-size: 17px;
+    border-radius: 6px;
+  }
+
+  .btn {
+    height: 46px;
+    font-size: 14px;
+    padding: 0 16px;
+  }
+
+  .input-prefix {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .form-input.has-prefix {
+    padding-left: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Extra Compact / Foldable Outer Screens (<= 330px) */
+@media (max-width: 330px) {
+  .auth-card {
+    padding: 14px 10px 14px;
+    border-radius: 14px;
+  }
+
+  .brand-title {
+    font-size: 22px;
+  }
+
+  .brand-number {
+    font-size: 24px;
+  }
+
+  .auth-mode-tab {
+    font-size: 11.5px;
+    padding: 7px 4px;
+  }
+
+  .role-text {
+    font-size: 9.5px;
+  }
+
+  .otp-inputs-grid {
+    gap: 3px;
+  }
+
+  .otp-digit {
+    height: 36px;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+}
+
+/* Short Viewports / Mobile & Tablet Landscape Mode */
+@media (max-height: 640px) {
+  .auth-wrapper {
+    padding: 10px 12px;
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    padding: 16px 20px 14px;
+    border-radius: 16px;
+    margin: 8px auto;
+  }
+
+  .brand-header {
+    margin-bottom: 10px;
+  }
+
+  .brand-badge {
+    margin-bottom: 4px;
+    padding: 1px 8px;
+  }
+
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .brand-number {
+    font-size: 26px;
+  }
+
+  .brand-tagline {
+    font-size: 11.5px;
+    margin-top: 1px;
+  }
+
+  .auth-mode-switch-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .role-selector-section {
+    margin-bottom: 12px;
+  }
+
+  .role-pill {
+    padding: 6px 4px;
+  }
+
+  .role-icon {
+    font-size: 15px;
+    margin-bottom: 1px;
+  }
+
+  .multi-field-form {
+    max-height: 48dvh;
+  }
+
+  .card-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+}

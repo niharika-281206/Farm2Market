@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Farm2Market - Smart Agricultural Authentication</title>
+  <meta name="description" content="Official Farm2Market portal - Secure authentication for Farmers, Procurement Operators, and Mandi Administrators.">
+  <meta property="og:title" content="Farm2Market - Smart Agricultural Authentication">
+  <meta property="og:description" content="From Farm to Market, Made Smarter. Official unified agricultural portal.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit for modern clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet (Vanilla CSS3) -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Full-Screen Photographic Agricultural Background with Subtle Overlay -->
+  <div id="bg-container" class="bg-container" aria-hidden="true">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- Main Viewport Shell Centering the Login Card -->
+  <main id="auth-app" class="auth-wrapper">
+    <div class="card-container">
+      
+      <!-- Farm2Market Glass Card -->
+      <section id="auth-card" class="auth-card" aria-labelledby="brand-title">
+        
+        <!-- Brand Header Section -->
+        <header class="brand-header">
+          <div class="brand-badge">
+            <span class="govt-icon">🌾</span>
+            <span class="govt-label">NATIONAL AGRICULTURAL ACCESS PORTAL</span>
+          </div>
+
+          <div class="brand-logo-wrap">
+            <h1 id="brand-title" class="brand-title">
+              Farm<span class="brand-number">2</span>Market
+            </h1>
+          </div>
+
+          <p class="brand-tagline">From Farm to Market, Made Smarter.</p>
+        </header>
+
+        <!-- Primary Auth Mode Selector (Sign In vs Sign Up) -->
+        <div class="auth-mode-switch-wrapper">
+          <div class="auth-mode-switch" role="tablist" aria-label="Authentication Options">
+            <button 
+              type="button" 
+              class="auth-mode-tab active" 
+              id="auth-tab-signin" 
+              role="tab" 
+              aria-selected="true"
+              data-mode="signin"
+            >
+              <span class="tab-icon">🔑</span>
+              <span class="tab-title">Sign In</span>
+            </button>
+            <button 
+              type="button" 
+              class="auth-mode-tab" 
+              id="auth-tab-signup" 
+              role="tab" 
+              aria-selected="false"
+              data-mode="signup"
+            >
+              <span class="tab-icon">✨</span>
+              <span class="tab-title">Sign Up / Register</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Selection Tabs -->
+        <nav class="role-selector-section" aria-label="Select User Role">
+          <label class="role-section-label" id="role-section-label">Sign in as</label>
+          <div class="role-pills" role="radiogroup" aria-label="Portal User Roles">
+            
+            <button 
+              type="button" 
+              class="role-pill active" 
+              id="role-btn-farmer" 
+              role="radio" 
+              aria-checked="true"
+              data-role="farmer"
+            >
+              <span class="role-icon">🌾</span>
+              <span class="role-text">Farmer</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="role-pill" 
+              id="role-btn-operator" 
+              role="radio" 
+              aria-checked="false"
+              data-role="operator"
+            >
+              <span class="role-icon">👨‍💼</span>
+              <span class="role-text">Operator</span>
+            </button>
+
+            <button 
+              type="button" 
+              class="role-pill" 
+              id="role-btn-admin" 
+              role="radio" 
+              aria-checked="false"
+              data-role="admin"
+            >
+              <span class="role-icon">📊</span>
+              <span class="role-text">Admin</span>
+            </button>
+
+          </div>
+        </nav>
+
+        <!-- Dynamic Form Container -->
+        <div id="form-container" class="form-container">
+          
+          <!-- Alert / Feedback Banner -->
+          <div id="status-banner" class="status-banner hidden" role="alert" aria-live="polite">
+            <span id="status-icon" class="status-icon">ℹ️</span>
+            <div id="status-content" class="status-content">
+              <p id="status-message" class="status-message"></p>
+            </div>
+            <button type="button" id="status-close-btn" class="status-close-btn" aria-label="Close notification">&times;</button>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 1. FARMER LOGIN FORM (MOBILE + OTP) -->
+          <!-- ========================================== -->
+          <div id="view-farmer-login" class="auth-view active">
+            
+            <!-- Step 1: Mobile Entry -->
+            <form id="form-farmer-mobile" class="auth-form" novalidate>
+              <div class="form-group">
+                <label for="farmer-mobile-input" class="form-label">
+                  Mobile Number <span class="required">*</span>
+                </label>
+                
+                <div class="input-with-prefix">
+                  <span class="input-prefix" aria-hidden="true">
+                    <img src="https://flagcdn.com/w20/in.png" alt="India" class="flag-icon" width="18" height="13">
+                    +91
+                  </span>
+                  <input 
+                    type="tel" 
+                    id="farmer-mobile-input" 
+                    name="mobile" 
+                    class="form-input has-prefix" 
+                    placeholder="Enter 10-digit mobile number"
+                    maxlength="10"
+                    pattern="[6-9][0-9]{9}"
+                    autocomplete="tel-national"
+                    inputmode="numeric"
+                    required
+                  >
+                </div>
+                <span id="farmer-mobile-error" class="field-error" aria-live="polite"></span>
+              </div>
+
+              <button type="submit" id="btn-farmer-send-otp" class="btn btn-primary">
+                <span class="btn-text">Send OTP</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  New farmer? 
+                  <button type="button" id="link-to-farmer-signup" class="btn-link">Create an account</button>
+                </p>
+              </div>
+            </form>
+
+            <!-- Step 2: OTP Verification -->
+            <form id="form-farmer-otp" class="auth-form hidden" novalidate>
+              <div class="otp-instruction-box">
+                <div class="otp-header">
+                  <h3 class="otp-title">Enter OTP</h3>
+                  <button type="button" id="btn-change-mobile" class="btn-link text-sm">Change Number</button>
+                </div>
+                <p class="otp-subtitle">
+                  OTP sent to: <strong id="otp-target-display">+91 XXXXXXXX90</strong>
+                </p>
+                <div id="demo-otp-helper" class="demo-otp-helper hidden">
+                  <span class="helper-badge">Test Code</span>
+                  <span id="demo-otp-val" class="helper-code">------</span>
+                  <button type="button" id="btn-auto-fill-otp" class="btn-mini-action">Auto-fill</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label sr-only">6-Digit Verification Code</label>
+                <div class="otp-inputs-grid" id="otp-inputs-wrapper">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="0" autocomplete="one-time-code" required aria-label="Digit 1">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="1" aria-label="Digit 2">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="2" aria-label="Digit 3">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="3" aria-label="Digit 4">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="4" aria-label="Digit 5">
+                  <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]" data-index="5" aria-label="Digit 6">
+                </div>
+                <span id="farmer-otp-error" class="field-error" aria-live="polite"></span>
+              </div>
+
+              <!-- Resend OTP Timer -->
+              <div class="resend-container">
+                <p id="resend-timer-text" class="timer-text">
+                  Resend OTP in <span id="otp-timer-count" class="timer-number">30</span> seconds
+                </p>
+                <button type="button" id="btn-resend-otp" class="btn-link hidden">
+                  Resend OTP
+                </button>
+              </div>
+
+              <button type="submit" id="btn-farmer-verify-otp" class="btn btn-primary">
+                <span class="btn-text">Verify & Continue</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div id="unregistered-alert-box" class="unregistered-prompt hidden">
+                <p class="unregistered-text">Mobile number is not registered.</p>
+                <button type="button" id="btn-create-unregistered-account" class="btn btn-secondary">
+                  Create Farmer Account
+                </button>
+              </div>
+            </form>
+
+          </div>
+
+
+          <!-- ========================================== -->
+          <!-- 2. FARMER REGISTRATION FLOW -->
+          <!-- ========================================== -->
+          <div id="view-farmer-signup" class="auth-view hidden">
+            <div class="registration-header">
+              <button type="button" id="btn-back-to-farmer-login" class="back-button" aria-label="Back to login">
+                ← Back to Login
+              </button>
+              <h2 class="view-heading">Farmer Registration</h2>
+              <p class="view-subheading">Complete your Kisan profile for digital mandi access & direct payments.</p>
+            </div>
+
+            <form id="form-farmer-register" class="auth-form multi-field-form" novalidate>
+              
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-mobile" class="form-label">Mobile Number <span class="required">*</span></label>
+                  <div class="input-with-prefix">
+                    <span class="input-prefix">+91</span>
+                    <input type="tel" id="reg-mobile" name="mobile" class="form-input has-prefix" placeholder="10-digit mobile" maxlength="10" required>
+                  </div>
+                  <span id="reg-mobile-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-name" class="form-label">Full Name <span class="required">*</span></label>
+                  <input type="text" id="reg-name" name="name" class="form-input" placeholder="e.g. Ramesh Patel" required>
+                  <span id="reg-name-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-email" class="form-label">Email Address <span class="optional">(Optional)</span></label>
+                <input type="email" id="reg-email" name="email" class="form-input" placeholder="farmer@domain.com">
+                <span id="reg-email-error" class="field-error"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-village" class="form-label">Village <span class="required">*</span></label>
+                  <input type="text" id="reg-village" name="village" class="form-input" placeholder="Village name" required>
+                  <span id="reg-village-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-mandal" class="form-label">Mandal / Taluk <span class="required">*</span></label>
+                  <input type="text" id="reg-mandal" name="mandal" class="form-input" placeholder="Taluk / Tehsil" required>
+                  <span id="reg-mandal-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-district" class="form-label">District <span class="required">*</span></label>
+                  <input type="text" id="reg-district" name="district" class="form-input" placeholder="District" required>
+                  <span id="reg-district-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-state" class="form-label">State <span class="required">*</span></label>
+                  <select id="reg-state" name="state" class="form-select" required>
+                    <option value="" disabled selected>Select State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Other">Other States/UT</option>
+                  </select>
+                  <span id="reg-state-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-pincode" class="form-label">Pincode <span class="required">*</span></label>
+                  <input type="text" id="reg-pincode" name="pincode" class="form-input" placeholder="6-digit PIN" maxlength="6" pattern="[0-9]{6}" required>
+                  <span id="reg-pincode-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-land-area" class="form-label">Land Area <span class="required">*</span></label>
+                  <input type="text" id="reg-land-area" name="land_area" class="form-input" placeholder="e.g. 5.5 Acres" required>
+                  <span id="reg-land-area-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-crop" class="form-label">Primary Crop <span class="required">*</span></label>
+                <input type="text" id="reg-crop" name="primary_crop" class="form-input" placeholder="e.g. Paddy, Wheat, Cotton, Pulses" required>
+                <span id="reg-crop-error" class="field-error"></span>
+              </div>
+
+              <button type="submit" id="btn-submit-farmer-reg" class="btn btn-primary">
+                <span class="btn-text">Complete Registration & Enter</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  Already registered? 
+                  <button type="button" id="link-back-to-login" class="btn-link">Sign In</button>
+                </p>
+              </div>
+            </form>
+          </div>
+
+
+          <!-- ========================================== -->
+          <!-- 3. OPERATOR LOGIN FORM (EMAIL + PASSWORD + SMTP) -->
+          <!-- ========================================== -->
+          <div id="view-operator-login" class="auth-view hidden">
+            <form id="form-operator-login" class="auth-form" novalidate>
+              <div class="form-group">
+                <label for="operator-email-input" class="form-label">Email Address <span class="required">*</span></label>
+                <input 
+                  type="email" 
+                  id="operator-email-input" 
+                  name="email" 
+                  class="form-input" 
+                  placeholder="operator@farm2market.gov.in"
+                  autocomplete="username"
+                  required
+                >
+                <span id="operator-email-error" class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="operator-password-input" class="form-label">Password <span class="required">*</span></label>
+                <div class="password-input-wrapper">
+                  <input 
+                    type="password" 
+                    id="operator-password-input" 
+                    name="password" 
+                    class="form-input has-icon-right" 
+                    placeholder="Enter operator password"
+                    autocomplete="current-password"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    class="toggle-password-btn" 
+                    data-target="operator-password-input" 
+                    aria-label="Show password"
+                    title="Show password"
+                  >
+                    <svg class="eye-icon eye-show" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-icon eye-hide hidden" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+                <span id="operator-password-error" class="field-error"></span>
+
+                <!-- Visual Password Strength Indicator for Operator -->
+                <div id="operator-password-strength" class="password-strength-container hidden" aria-live="polite">
+                  <div class="strength-header">
+                    <span class="strength-label-title">Password Strength:</span>
+                    <span id="operator-strength-text" class="strength-level-text">Weak</span>
+                  </div>
+                  <div class="strength-meter">
+                    <div class="strength-bar" id="operator-bar-1"></div>
+                    <div class="strength-bar" id="operator-bar-2"></div>
+                    <div class="strength-bar" id="operator-bar-3"></div>
+                    <div class="strength-bar" id="operator-bar-4"></div>
+                  </div>
+                  <div class="strength-criteria">
+                    <span class="criteria-item" id="operator-rule-length"><span class="criteria-icon">○</span> 8+ chars</span>
+                    <span class="criteria-item" id="operator-rule-case"><span class="criteria-icon">○</span> Upper & lower</span>
+                    <span class="criteria-item" id="operator-rule-number"><span class="criteria-icon">○</span> Number (0-9)</span>
+                    <span class="criteria-item" id="operator-rule-special"><span class="criteria-icon">○</span> Symbol (@#$)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-callout">
+                <span class="info-icon">🛡️</span>
+                <span class="info-text">Procurement Operator accounts require verified SMTP email credentials.</span>
+              </div>
+
+              <!-- Unverified Operator Warning & Action -->
+              <div id="operator-unverified-box" class="unverified-box hidden">
+                <p class="unverified-msg" id="operator-unverified-msg">Please verify your email before logging in.</p>
+                <div class="unverified-actions">
+                  <button type="button" id="btn-resend-operator-verification" class="btn btn-outline-warning">
+                    <span class="btn-text">Resend Verification Email</span>
+                    <span class="btn-spinner hidden"></span>
+                  </button>
+                  <button type="button" id="btn-quick-verify-operator" class="btn-link text-xs">Simulate SMTP Click</button>
+                </div>
+              </div>
+
+              <button type="submit" id="btn-operator-login" class="btn btn-primary">
+                <span class="btn-text">Login</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  New operator? 
+                  <button type="button" id="link-to-operator-signup" class="btn-link">Register operator account</button>
+                </p>
+              </div>
+
+              <div class="quick-credentials-hint">
+                <span>Demo Operator: <code>operator@farm2market.gov.in</code> / <code>Operator@123</code></span>
+              </div>
+            </form>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 3b. OPERATOR REGISTRATION / ONBOARDING FORM -->
+          <!-- ========================================== -->
+          <div id="view-operator-signup" class="auth-view hidden">
+            <div class="registration-header">
+              <button type="button" id="btn-back-to-operator-login" class="back-button" aria-label="Back to operator login">
+                ← Back to Login
+              </button>
+              <h2 class="view-heading">Operator Onboarding</h2>
+              <p class="view-subheading">Register procurement center credentials for mandi operations.</p>
+            </div>
+
+            <form id="form-operator-register" class="auth-form multi-field-form" novalidate>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-op-name" class="form-label">Full Name <span class="required">*</span></label>
+                  <input type="text" id="reg-op-name" name="name" class="form-input" placeholder="e.g. Suresh Kumar" required>
+                  <span id="reg-op-name-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-op-email" class="form-label">Official Email <span class="required">*</span></label>
+                  <input type="email" id="reg-op-email" name="email" class="form-input" placeholder="suresh@farm2market.gov.in" required>
+                  <span id="reg-op-email-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-op-centre" class="form-label">Procurement Centre / APMC <span class="required">*</span></label>
+                  <input type="text" id="reg-op-centre" name="centre_name" class="form-input" placeholder="APMC Main Mandi Hub #04" required>
+                  <span id="reg-op-centre-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-op-mandi-code" class="form-label">Mandi Code / ID <span class="required">*</span></label>
+                  <input type="text" id="reg-op-mandi-code" name="mandi_code" class="form-input" placeholder="APMC-KA-58002" required>
+                  <span id="reg-op-mandi-code-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-op-password" class="form-label">Account Password <span class="required">*</span></label>
+                <div class="password-input-wrapper">
+                  <input 
+                    type="password" 
+                    id="reg-op-password" 
+                    name="password" 
+                    class="form-input has-icon-right" 
+                    placeholder="Create secure operator password"
+                    autocomplete="new-password"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    class="toggle-password-btn" 
+                    data-target="reg-op-password" 
+                    aria-label="Show password"
+                    title="Show password"
+                  >
+                    <svg class="eye-icon eye-show" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-icon eye-hide hidden" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+                <span id="reg-op-password-error" class="field-error"></span>
+
+                <!-- Password Strength for Operator Registration -->
+                <div id="reg-operator-password-strength" class="password-strength-container hidden" aria-live="polite">
+                  <div class="strength-header">
+                    <span class="strength-label-title">Password Strength:</span>
+                    <span id="reg-operator-strength-text" class="strength-level-text">Weak</span>
+                  </div>
+                  <div class="strength-meter">
+                    <div class="strength-bar" id="reg-operator-bar-1"></div>
+                    <div class="strength-bar" id="reg-operator-bar-2"></div>
+                    <div class="strength-bar" id="reg-operator-bar-3"></div>
+                    <div class="strength-bar" id="reg-operator-bar-4"></div>
+                  </div>
+                  <div class="strength-criteria">
+                    <span class="criteria-item" id="reg-operator-rule-length"><span class="criteria-icon">○</span> 8+ chars</span>
+                    <span class="criteria-item" id="reg-operator-rule-case"><span class="criteria-icon">○</span> Upper & lower</span>
+                    <span class="criteria-item" id="reg-operator-rule-number"><span class="criteria-icon">○</span> Number (0-9)</span>
+                    <span class="criteria-item" id="reg-operator-rule-special"><span class="criteria-icon">○</span> Symbol (@#$)</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" id="btn-submit-operator-reg" class="btn btn-primary">
+                <span class="btn-text">Complete Operator Registration</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  Already have an operator account? 
+                  <button type="button" id="link-back-to-operator-login" class="btn-link">Sign In</button>
+                </p>
+              </div>
+            </form>
+          </div>
+
+
+          <!-- ========================================== -->
+          <!-- 4. ADMIN LOGIN FORM (EMAIL + PASSWORD) -->
+          <!-- ========================================== -->
+          <div id="view-admin-login" class="auth-view hidden">
+            <form id="form-admin-login" class="auth-form" novalidate>
+              <div class="form-group">
+                <label for="admin-email-input" class="form-label">Email Address <span class="required">*</span></label>
+                <input 
+                  type="email" 
+                  id="admin-email-input" 
+                  name="email" 
+                  class="form-input" 
+                  placeholder="admin@farm2market.gov.in"
+                  autocomplete="username"
+                  required
+                >
+                <span id="admin-email-error" class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="admin-password-input" class="form-label">Password <span class="required">*</span></label>
+                <div class="password-input-wrapper">
+                  <input 
+                    type="password" 
+                    id="admin-password-input" 
+                    name="password" 
+                    class="form-input has-icon-right" 
+                    placeholder="Enter administrative password"
+                    autocomplete="current-password"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    class="toggle-password-btn" 
+                    data-target="admin-password-input" 
+                    aria-label="Show password"
+                    title="Show password"
+                  >
+                    <svg class="eye-icon eye-show" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-icon eye-hide hidden" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+                <span id="admin-password-error" class="field-error"></span>
+
+                <!-- Visual Password Strength Indicator for Admin -->
+                <div id="admin-password-strength" class="password-strength-container hidden" aria-live="polite">
+                  <div class="strength-header">
+                    <span class="strength-label-title">Password Strength:</span>
+                    <span id="admin-strength-text" class="strength-level-text">Weak</span>
+                  </div>
+                  <div class="strength-meter">
+                    <div class="strength-bar" id="admin-bar-1"></div>
+                    <div class="strength-bar" id="admin-bar-2"></div>
+                    <div class="strength-bar" id="admin-bar-3"></div>
+                    <div class="strength-bar" id="admin-bar-4"></div>
+                  </div>
+                  <div class="strength-criteria">
+                    <span class="criteria-item" id="admin-rule-length"><span class="criteria-icon">○</span> 8+ chars</span>
+                    <span class="criteria-item" id="admin-rule-case"><span class="criteria-icon">○</span> Upper & lower</span>
+                    <span class="criteria-item" id="admin-rule-number"><span class="criteria-icon">○</span> Number (0-9)</span>
+                    <span class="criteria-item" id="admin-rule-special"><span class="criteria-icon">○</span> Symbol (@#$)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="admin-security-badge">
+                <span class="badge-lock">🔒</span>
+                <span class="badge-text">256-Bit SSL Encrypted Admin Gateway</span>
+              </div>
+
+              <button type="submit" id="btn-admin-login" class="btn btn-primary btn-admin">
+                <span class="btn-text">Secure Login</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  New administrative officer? 
+                  <button type="button" id="link-to-admin-signup" class="btn-link">Request Authorization</button>
+                </p>
+              </div>
+
+              <div class="quick-credentials-hint">
+                <span>Master Admin: <code>admin@farm2market.gov.in</code> / <code>Admin@Farm2026</code></span>
+              </div>
+            </form>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 4b. ADMIN ENROLLMENT / REGISTRATION FORM -->
+          <!-- ========================================== -->
+          <div id="view-admin-signup" class="auth-view hidden">
+            <div class="registration-header">
+              <button type="button" id="btn-back-to-admin-login" class="back-button" aria-label="Back to admin login">
+                ← Back to Login
+              </button>
+              <h2 class="view-heading">Admin Enrollment</h2>
+              <p class="view-subheading">Request authorized administrative clearance for State APMC Operations.</p>
+            </div>
+
+            <form id="form-admin-register" class="auth-form multi-field-form" novalidate>
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label for="reg-admin-name" class="form-label">Officer Name <span class="required">*</span></label>
+                  <input type="text" id="reg-admin-name" name="name" class="form-input" placeholder="e.g. Dr. Arvind Swaminathan" required>
+                  <span id="reg-admin-name-error" class="field-error"></span>
+                </div>
+
+                <div class="form-group flex-1">
+                  <label for="reg-admin-dept" class="form-label">Department / Wing <span class="required">*</span></label>
+                  <input type="text" id="reg-admin-dept" name="department" class="form-input" placeholder="State Procurement Directorate" required>
+                  <span id="reg-admin-dept-error" class="field-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-admin-email" class="form-label">Official Ministry Email <span class="required">*</span></label>
+                <input type="email" id="reg-admin-email" name="email" class="form-input" placeholder="officer@farm2market.gov.in" required>
+                <span id="reg-admin-email-error" class="field-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="reg-admin-password" class="form-label">Master Passphrase <span class="required">*</span></label>
+                <div class="password-input-wrapper">
+                  <input 
+                    type="password" 
+                    id="reg-admin-password" 
+                    name="password" 
+                    class="form-input has-icon-right" 
+                    placeholder="Min 8 chars with mixed case and symbols"
+                    autocomplete="new-password"
+                    required
+                  >
+                  <button 
+                    type="button" 
+                    class="toggle-password-btn" 
+                    data-target="reg-admin-password" 
+                    aria-label="Show password"
+                    title="Show password"
+                  >
+                    <svg class="eye-icon eye-show" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-icon eye-hide hidden" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  </button>
+                </div>
+                <span id="reg-admin-password-error" class="field-error"></span>
+
+                <!-- Password Strength for Admin Registration -->
+                <div id="reg-admin-password-strength" class="password-strength-container hidden" aria-live="polite">
+                  <div class="strength-header">
+                    <span class="strength-label-title">Passphrase Strength:</span>
+                    <span id="reg-admin-strength-text" class="strength-level-text">Weak</span>
+                  </div>
+                  <div class="strength-meter">
+                    <div class="strength-bar" id="reg-admin-bar-1"></div>
+                    <div class="strength-bar" id="reg-admin-bar-2"></div>
+                    <div class="strength-bar" id="reg-admin-bar-3"></div>
+                    <div class="strength-bar" id="reg-admin-bar-4"></div>
+                  </div>
+                  <div class="strength-criteria">
+                    <span class="criteria-item" id="reg-admin-rule-length"><span class="criteria-icon">○</span> 8+ chars</span>
+                    <span class="criteria-item" id="reg-admin-rule-case"><span class="criteria-icon">○</span> Upper & lower</span>
+                    <span class="criteria-item" id="reg-admin-rule-number"><span class="criteria-icon">○</span> Number (0-9)</span>
+                    <span class="criteria-item" id="reg-admin-rule-special"><span class="criteria-icon">○</span> Symbol (@#$)</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" id="btn-submit-admin-reg" class="btn btn-primary btn-admin">
+                <span class="btn-text">Submit Clearance Request</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+              </button>
+
+              <div class="auth-footer-links">
+                <p class="footer-text">
+                  Already have administrative credentials? 
+                  <button type="button" id="link-back-to-admin-login" class="btn-link">Sign In</button>
+                </p>
+              </div>
+            </form>
+          </div>
+
+
+          <!-- ========================================== -->
+          <!-- 5. AUTHENTICATED SUCCESS MODAL / DASHBOARD SCREEN -->
+          <!-- ========================================== -->
+          <div id="view-authenticated-success" class="auth-view hidden">
+            <div class="success-card">
+              <div class="success-icon-wrap">
+                <span class="success-check-icon">✓</span>
+              </div>
+              <h2 id="success-user-greeting" class="success-heading">Welcome, Kisan!</h2>
+              <p id="success-role-badge" class="success-badge">Farmer Session Active</p>
+              
+              <div id="success-user-details" class="user-details-summary">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <div class="success-actions">
+                <button type="button" id="btn-continue-dashboard" class="btn btn-primary">
+                  Proceed to Dedicated Dashboard →
+                </button>
+                <button type="button" id="btn-auth-signout" class="btn btn-secondary">
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Card Footer -->
+        <footer class="card-footer">
+          <div class="security-meta">
+            <span class="meta-dot"></span>
+            <span>Digital Agriculture Infrastructure System</span>
+          </div>
+          <p class="copyright-meta">© 2026 Farm2Market. Ministry of Agriculture & Farmer Welfare.</p>
+        </footer>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Vanilla JavaScript Application -->
+  <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <defs>
+    <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Emblem Icon: Stylized Sprout & Grain Path -->
+  <g transform="translate(6, 6)" filter="url(#subtleGlow)">
+    <!-- Shield/Circle base -->
+    <rect x="0" y="0" width="48" height="48" rx="14" fill="#0f392b" />
+    
+    <!-- Sprout / Wheat Stem -->
+    <path d="M24 38 V18" stroke="#fcd34d" stroke-width="2.5" stroke-linecap="round" />
+    
+    <!-- Leaves / Wheat Grains -->
+    <path d="M24 28 C18 26 15 21 16 16 C21 16 23 20 24 24" fill="url(#leafGrad)" />
+    <path d="M24 24 C27 20 30 16 35 17 C35 22 31 25 24 27" fill="url(#goldGrad)" />
+    <path d="M24 20 C20 17 18 13 19 9 C23 9 24 13 24 16" fill="url(#leafGrad)" />
+    <path d="M24 16 C26 13 29 9 33 10 C33 14 30 17 24 18" fill="url(#goldGrad)" />
+    <circle cx="24" cy="11" r="2" fill="#fbbf24" />
+    
+    <!-- Market Connection Arc & Arrow -->
+    <path d="M12 36 C18 41 30 41 36 36" stroke="#22c55e" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="1 1" />
+  </g>
+
+  <!-- Typography: Farm2Market -->
+  <text x="64" y="33" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif" font-size="25" font-weight="800" fill="#0f291e" letter-spacing="-0.5">
+    Farm<tspan fill="#16a34a" font-weight="900" font-size="27">2</tspan><tspan fill="#1e3a8a">Market</tspan>
+  </text>
+  
+  <text x="65" y="47" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="600" fill="#475569" letter-spacing="0.8">
+    GOVERNMENT AGRICULTURAL E-PORTAL
+  </text>
+</svg>

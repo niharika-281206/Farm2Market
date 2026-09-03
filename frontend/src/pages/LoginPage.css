@@ -1,0 +1,1225 @@
+/* ==========================================================================
+   Farm2Market Login Page — Scoped Styles (ported from farm2marketloginpage)
+   All selectors scoped under .f2m-login-root to avoid Tailwind conflicts
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   -------------------------------------------------------------------------- */
+.f2m-login-root {
+  --color-primary-green: #16a34a;
+  --color-primary-green-hover: #15803d;
+  --color-primary-green-dark: #064e3b;
+  --color-primary-green-light: #f0fdf4;
+  --color-primary-green-border: #bbf7d0;
+  --color-accent-amber: #d97706;
+  --color-accent-amber-light: #fffbeb;
+  --color-admin-navy: #1e3a8a;
+  --color-admin-navy-hover: #172554;
+  --color-text-main: #0f172a;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6b7280;
+  --color-text-light: #9ca3af;
+  --color-surface-white: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.82);
+  --color-surface-glass-border: rgba(255, 255, 255, 0.75);
+  --color-surface-subtle: rgba(248, 250, 252, 0.8);
+  --color-border-default: #e2e8f0;
+  --color-border-focus: #16a34a;
+  --color-danger: #dc2626;
+  --color-danger-light: #fef2f2;
+  --color-danger-border: #fecaca;
+  --color-warning: #b45309;
+  --color-warning-light: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-success: #16a34a;
+  --color-success-light: #f0fdf4;
+  --color-success-border: #bbf7d0;
+  --font-family-base: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --card-max-width: 460px;
+  --card-border-radius: 24px;
+  --input-border-radius: 12px;
+  --pill-border-radius: 14px;
+  --button-border-radius: 12px;
+  --shadow-card: 0 25px 60px -10px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.65) inset, 0 1px 25px rgba(255, 255, 255, 0.4) inset;
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3.5px rgba(22, 163, 74, 0.22);
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset within scope
+   -------------------------------------------------------------------------- */
+.f2m-login-root *,
+.f2m-login-root *::before,
+.f2m-login-root *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.f2m-login-root {
+  font-family: var(--font-family-base);
+  color: var(--color-text-main);
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+.f2m-login-root .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.f2m-login-root .hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Full-Screen Background
+   -------------------------------------------------------------------------- */
+.f2m-login-root .bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: #1a2e26;
+}
+
+.f2m-login-root .bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/custom-farm-bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transform: scale(1.01);
+  transition: transform 1.2s ease-out;
+}
+
+.f2m-login-root .bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(15, 23, 42, 0.12) 0%,
+    rgba(6, 78, 59, 0.28) 60%,
+    rgba(2, 44, 34, 0.55) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   4. Centered Layout
+   -------------------------------------------------------------------------- */
+.f2m-login-root .auth-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px 24px;
+}
+
+.f2m-login-root .card-container {
+  width: 100%;
+  max-width: var(--card-max-width);
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   5. Glass Card
+   -------------------------------------------------------------------------- */
+.f2m-login-root .auth-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--shadow-card);
+  padding: 36px 32px 28px;
+  overflow: hidden;
+  animation: card-appear 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Brand Header
+   -------------------------------------------------------------------------- */
+.f2m-login-root .brand-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.f2m-login-root .brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary-green-light);
+  border: 1px solid var(--color-primary-green-border);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 12px;
+}
+
+.f2m-login-root .govt-icon {
+  font-size: 14px;
+}
+
+.f2m-login-root .govt-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-primary-green-dark);
+  text-transform: uppercase;
+}
+
+.f2m-login-root .brand-title {
+  font-family: var(--font-family-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.f2m-login-root .brand-number {
+  color: var(--color-primary-green);
+}
+
+.f2m-login-root .brand-tagline {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   7. Auth Mode Switch (Sign In / Sign Up)
+   -------------------------------------------------------------------------- */
+.f2m-login-root .auth-mode-switch-wrapper {
+  margin-bottom: 20px;
+}
+
+.f2m-login-root .auth-mode-switch {
+  display: flex;
+  background: rgba(241, 245, 249, 0.9);
+  border-radius: 14px;
+  padding: 4px;
+  border: 1px solid var(--color-border-default);
+}
+
+.f2m-login-root .auth-mode-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 11px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  transition: all var(--transition-smooth);
+  font-family: var(--font-family-base);
+}
+
+.f2m-login-root .auth-mode-tab.active {
+  background: var(--color-surface-white);
+  color: var(--color-primary-green);
+  box-shadow: var(--shadow-md);
+}
+
+.f2m-login-root .tab-icon {
+  font-size: 14px;
+}
+
+.f2m-login-root .tab-title {
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Role Selector Pills
+   -------------------------------------------------------------------------- */
+.f2m-login-root .role-selector-section {
+  margin-bottom: 20px;
+}
+
+.f2m-login-root .role-section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.f2m-login-root .role-pills {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.f2m-login-root .role-pill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  border: 2px solid var(--color-border-default);
+  background: var(--color-surface-subtle);
+  border-radius: var(--pill-border-radius);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-family-base);
+}
+
+.f2m-login-root .role-pill:hover {
+  border-color: var(--color-primary-green-border);
+  background: rgba(240, 253, 244, 0.7);
+}
+
+.f2m-login-root .role-pill.active {
+  border-color: var(--color-primary-green);
+  background: var(--color-primary-green-light);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.f2m-login-root .role-pill.active[data-role="admin"] {
+  border-color: var(--color-admin-navy);
+  background: #eff6ff;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.f2m-login-root .role-icon {
+  font-size: 22px;
+}
+
+.f2m-login-root .role-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.f2m-login-root .role-pill.active .role-text {
+  color: var(--color-primary-green-dark);
+}
+
+.f2m-login-root .role-pill.active[data-role="admin"] .role-text {
+  color: var(--color-admin-navy);
+}
+
+/* --------------------------------------------------------------------------
+   9. Form Container & Inputs
+   -------------------------------------------------------------------------- */
+.f2m-login-root .form-container {
+  position: relative;
+}
+
+.f2m-login-root .auth-view {
+  animation: view-fade-in 0.25s ease;
+}
+
+@keyframes view-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.f2m-login-root .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.f2m-login-root .multi-field-form {
+  gap: 12px;
+}
+
+.f2m-login-root .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.f2m-login-root .form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.f2m-login-root .flex-1 {
+  flex: 1;
+}
+
+.f2m-login-root .form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.f2m-login-root .required {
+  color: var(--color-danger);
+  font-weight: 500;
+}
+
+.f2m-login-root .optional {
+  font-size: 11px;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+.f2m-login-root .form-input,
+.f2m-login-root .form-select {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: var(--font-family-base);
+  color: var(--color-text-main);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--input-border-radius);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.f2m-login-root .form-input:focus,
+.f2m-login-root .form-select:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.f2m-login-root .form-input.is-invalid {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.f2m-login-root .input-with-prefix {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.f2m-login-root .input-prefix {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 12px;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1.5px solid var(--color-border-default);
+  border-right: none;
+  border-radius: var(--input-border-radius) 0 0 var(--input-border-radius);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.f2m-login-root .flag-icon {
+  width: 18px;
+  height: 13px;
+  object-fit: contain;
+}
+
+.f2m-login-root .form-input.has-prefix {
+  border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
+}
+
+.f2m-login-root .field-error {
+  font-size: 12px;
+  color: var(--color-danger);
+  min-height: 16px;
+  line-height: 1.3;
+}
+
+/* Password wrapper */
+.f2m-login-root .password-input-wrapper {
+  position: relative;
+}
+
+.f2m-login-root .form-input.has-icon-right {
+  padding-right: 44px;
+}
+
+.f2m-login-root .toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-light);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.f2m-login-root .toggle-password-btn:hover {
+  color: var(--color-text-secondary);
+}
+
+.f2m-login-root .toggle-password-btn.is-active {
+  color: var(--color-primary-green);
+}
+
+.f2m-login-root .eye-icon {
+  width: 19px;
+  height: 19px;
+}
+
+/* --------------------------------------------------------------------------
+   10. Buttons
+   -------------------------------------------------------------------------- */
+.f2m-login-root .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family-base);
+  border-radius: var(--button-border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  position: relative;
+  white-space: nowrap;
+}
+
+.f2m-login-root .btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.f2m-login-root .btn-primary {
+  background: var(--color-primary-green);
+  color: white;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+}
+
+.f2m-login-root .btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-green-hover);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
+  transform: translateY(-1px);
+}
+
+.f2m-login-root .btn-primary.btn-admin {
+  background: var(--color-admin-navy);
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.25);
+}
+
+.f2m-login-root .btn-primary.btn-admin:hover:not(:disabled) {
+  background: var(--color-admin-navy-hover);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.35);
+}
+
+.f2m-login-root .btn-secondary {
+  background: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border: 1.5px solid var(--color-border-default);
+}
+
+.f2m-login-root .btn-secondary:hover:not(:disabled) {
+  background: rgba(241, 245, 249, 1);
+  border-color: var(--color-primary-green-border);
+}
+
+.f2m-login-root .btn-outline-warning {
+  background: transparent;
+  color: var(--color-warning);
+  border: 1.5px solid var(--color-warning-border);
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+.f2m-login-root .btn-outline-warning:hover:not(:disabled) {
+  background: var(--color-warning-light);
+}
+
+.f2m-login-root .btn-link {
+  background: none;
+  border: none;
+  color: var(--color-primary-green);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0;
+  font-family: var(--font-family-base);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.f2m-login-root .btn-link:hover {
+  color: var(--color-primary-green-hover);
+  text-decoration: underline;
+}
+
+.f2m-login-root .btn-mini-action {
+  background: var(--color-primary-green-light);
+  border: 1px solid var(--color-primary-green-border);
+  color: var(--color-primary-green);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  transition: all var(--transition-fast);
+}
+
+.f2m-login-root .btn-mini-action:hover {
+  background: var(--color-primary-green);
+  color: white;
+}
+
+/* Button spinner */
+.f2m-login-root .btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   11. Status Banner
+   -------------------------------------------------------------------------- */
+.f2m-login-root .status-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid;
+  animation: status-in 0.3s ease;
+}
+
+@keyframes status-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.f2m-login-root .status-banner.success {
+  background: var(--color-success-light);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
+}
+
+.f2m-login-root .status-banner.error {
+  background: var(--color-danger-light);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
+}
+
+.f2m-login-root .status-banner.warning {
+  background: var(--color-warning-light);
+  border-color: var(--color-warning-border);
+  color: var(--color-warning);
+}
+
+.f2m-login-root .status-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.f2m-login-root .status-content {
+  flex: 1;
+}
+
+.f2m-login-root .status-message {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.f2m-login-root .status-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.f2m-login-root .status-close-btn:hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   12. OTP Section
+   -------------------------------------------------------------------------- */
+.f2m-login-root .otp-instruction-box {
+  margin-bottom: 4px;
+}
+
+.f2m-login-root .otp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.f2m-login-root .otp-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.f2m-login-root .otp-subtitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.f2m-login-root .otp-subtitle strong {
+  color: var(--color-text-main);
+}
+
+.f2m-login-root .text-sm {
+  font-size: 13px;
+}
+
+.f2m-login-root .demo-otp-helper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--color-accent-amber-light);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 8px;
+}
+
+.f2m-login-root .helper-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-amber);
+  background: rgba(217, 119, 6, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.f2m-login-root .helper-code {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--color-text-main);
+}
+
+/* OTP Input Grid */
+.f2m-login-root .otp-inputs-grid {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.f2m-login-root .otp-digit {
+  width: 48px;
+  height: 54px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--font-family-display);
+  color: var(--color-text-main);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--color-border-default);
+  border-radius: 12px;
+  outline: none;
+  transition: all var(--transition-fast);
+  caret-color: var(--color-primary-green);
+}
+
+.f2m-login-root .otp-digit:focus {
+  border-color: var(--color-primary-green);
+  box-shadow: var(--shadow-focus);
+}
+
+.f2m-login-root .otp-digit.filled {
+  border-color: var(--color-primary-green);
+  background: var(--color-primary-green-light);
+}
+
+/* Resend */
+.f2m-login-root .resend-container {
+  text-align: center;
+  padding: 4px 0;
+}
+
+.f2m-login-root .timer-text {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.f2m-login-root .timer-number {
+  font-weight: 700;
+  color: var(--color-primary-green);
+}
+
+/* Unregistered prompt */
+.f2m-login-root .unregistered-prompt {
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.f2m-login-root .unregistered-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-warning);
+  margin-bottom: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   13. Registration Headers
+   -------------------------------------------------------------------------- */
+.f2m-login-root .registration-header {
+  margin-bottom: 16px;
+}
+
+.f2m-login-root .back-button {
+  background: none;
+  border: none;
+  color: var(--color-primary-green);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 8px;
+  font-family: var(--font-family-base);
+  transition: color var(--transition-fast);
+}
+
+.f2m-login-root .back-button:hover {
+  color: var(--color-primary-green-hover);
+}
+
+.f2m-login-root .view-heading {
+  font-family: var(--font-family-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 4px;
+}
+
+.f2m-login-root .view-subheading {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   14. Info Callouts & Security Badges
+   -------------------------------------------------------------------------- */
+.f2m-login-root .info-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 10px;
+  border: 1px solid var(--color-border-default);
+}
+
+.f2m-login-root .info-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.f2m-login-root .info-text {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.f2m-login-root .admin-security-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #1e3a8a08 0%, #1e3a8a12 100%);
+  border: 1px solid rgba(30, 58, 138, 0.15);
+  border-radius: 10px;
+}
+
+.f2m-login-root .badge-lock {
+  font-size: 16px;
+}
+
+.f2m-login-root .badge-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-admin-navy);
+  letter-spacing: 0.02em;
+}
+
+/* Unverified box */
+.f2m-login-root .unverified-box {
+  padding: 14px;
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning-border);
+  border-radius: 12px;
+}
+
+.f2m-login-root .unverified-msg {
+  font-size: 13px;
+  color: var(--color-warning);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.f2m-login-root .unverified-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.f2m-login-root .text-xs {
+  font-size: 11px;
+}
+
+/* --------------------------------------------------------------------------
+   15. Password Strength Meter
+   -------------------------------------------------------------------------- */
+.f2m-login-root .password-strength-container {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(248, 250, 252, 0.9);
+  border-radius: 10px;
+  border: 1px solid var(--color-border-default);
+}
+
+.f2m-login-root .strength-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.f2m-login-root .strength-label-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.f2m-login-root .strength-level-text {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.f2m-login-root .strength-level-text.weak { color: var(--color-danger); }
+.f2m-login-root .strength-level-text.fair { color: var(--color-accent-amber); }
+.f2m-login-root .strength-level-text.strong { color: #0d9488; }
+.f2m-login-root .strength-level-text.very-strong { color: var(--color-primary-green); }
+
+.f2m-login-root .strength-meter {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.f2m-login-root .strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #e2e8f0;
+  transition: background var(--transition-normal);
+}
+
+.f2m-login-root .strength-meter[data-level="1"] .strength-bar:nth-child(1) { background: var(--color-danger); }
+.f2m-login-root .strength-meter[data-level="2"] .strength-bar:nth-child(-n+2) { background: var(--color-accent-amber); }
+.f2m-login-root .strength-meter[data-level="3"] .strength-bar:nth-child(-n+3) { background: #0d9488; }
+.f2m-login-root .strength-meter[data-level="4"] .strength-bar { background: var(--color-primary-green); }
+
+.f2m-login-root .strength-criteria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.f2m-login-root .criteria-item {
+  font-size: 11px;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: color var(--transition-fast);
+}
+
+.f2m-login-root .criteria-item.met {
+  color: var(--color-primary-green);
+}
+
+.f2m-login-root .criteria-icon {
+  font-size: 11px;
+}
+
+/* --------------------------------------------------------------------------
+   16. Footer Links & Quick Credentials
+   -------------------------------------------------------------------------- */
+.f2m-login-root .auth-footer-links {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.f2m-login-root .footer-text {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.f2m-login-root .quick-credentials-hint {
+  text-align: center;
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 1px dashed var(--color-border-default);
+}
+
+.f2m-login-root .quick-credentials-hint span {
+  font-size: 11px;
+  color: var(--color-text-light);
+}
+
+.f2m-login-root .quick-credentials-hint code {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: rgba(241, 245, 249, 0.9);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   17. Success Screen
+   -------------------------------------------------------------------------- */
+.f2m-login-root .success-card {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.f2m-login-root .success-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.f2m-login-root .success-check-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-green);
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+  animation: check-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes check-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.f2m-login-root .success-heading {
+  font-family: var(--font-family-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 6px;
+}
+
+.f2m-login-root .success-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary-green-dark);
+  background: var(--color-primary-green-light);
+  border: 1px solid var(--color-primary-green-border);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.f2m-login-root .user-details-summary {
+  text-align: left;
+  padding: 14px;
+  background: rgba(248, 250, 252, 0.9);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-default);
+  margin-bottom: 20px;
+}
+
+.f2m-login-root .summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.f2m-login-root .summary-row:last-child {
+  border-bottom: none;
+}
+
+.f2m-login-root .summary-label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.f2m-login-root .summary-value {
+  color: var(--color-text-main);
+  font-weight: 600;
+  text-align: right;
+}
+
+.f2m-login-root .success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   18. Card Footer
+   -------------------------------------------------------------------------- */
+.f2m-login-root .card-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.f2m-login-root .security-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.f2m-login-root .meta-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary-green);
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.f2m-login-root .security-meta span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+.f2m-login-root .copyright-meta {
+  font-size: 10px;
+  color: var(--color-text-light);
+}
+
+/* --------------------------------------------------------------------------
+   19. Responsive (Mobile)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .f2m-login-root .auth-card {
+    padding: 28px 20px 22px;
+    border-radius: 20px;
+  }
+
+  .f2m-login-root .brand-title {
+    font-size: 26px;
+  }
+
+  .f2m-login-root .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .f2m-login-root .otp-digit {
+    width: 42px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .f2m-login-root .role-pill {
+    padding: 10px 6px;
+  }
+
+  .f2m-login-root .role-icon {
+    font-size: 18px;
+  }
+
+  .f2m-login-root .role-text {
+    font-size: 11px;
+  }
+}

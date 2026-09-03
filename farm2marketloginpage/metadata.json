@@ -1,0 +1,6 @@
+{
+  "name": "Farm2Market",
+  "description": "Smart Agricultural Authentication Platform connecting farmers, procurement operators, and administrators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
